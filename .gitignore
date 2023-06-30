@@ -2,5 +2,9 @@
 **/.env.production
 **/node_modules
 **/logs
+**/*.log
+**/.venv
 
 *.code-workspace
+
+**/__pycache__
