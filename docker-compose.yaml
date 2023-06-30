@@ -1,0 +1,10 @@
+version: "3.6"
+services:
+  stream:
+    build: ./stream
+    image: satbox:stream
+    restart: always
+    volumes:
+      - db_data:/usr/src/app/logs
+volumes:
+  db_data:

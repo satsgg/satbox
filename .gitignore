@@ -5,6 +5,10 @@
 **/*.log
 **/.venv
 
+.terraform
+terraform.tfstate*
+**/*.pem
+
 *.code-workspace
 
 **/__pycache__
