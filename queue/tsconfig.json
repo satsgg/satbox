@@ -1,0 +1,33 @@
+{
+  "ts-node": {
+    "transpileOnly": true,
+    "require": [
+      "tsconfig-paths/register",
+      "typescript-transform-paths/register"
+    ]
+  },
+  "compilerOptions": {
+    "target": "es6",
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "noUncheckedIndexedAccess": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "types": ["@types/node"],
+    "incremental": true,
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["./src/*"]
+    }
+  },
+  "include": ["**/*.ts", "./*.js", "./src/**/*.js", "./src/**/*.ts"],
+  "exclude": ["node_modules"]
+}

@@ -1,0 +1,6 @@
+**/.env
+**/.env.production
+**/node_modules
+**/logs
+
+*.code-workspace
