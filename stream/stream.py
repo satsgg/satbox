@@ -191,26 +191,11 @@ if __name__ == "__main__":
 
                 yt_dlp_cmd = [
                     "yt-dlp",
-                    # "-q",
                     "-v",
-                    # "-f", "webm",
-                    # "-f", "'webm[height=720]'",
-                    # TODO: Issue using ffmpeg as downloader is we lose audio
-                    # need to debug the streams... But is ffmpeg as downloader worse?
-                    # If use ffmpeg as downloader, might be able to remove encoder pipe?
-                    # Might be easiest for now to use handle the broken pipe error that yt_dlp proc
-                    # is experiencing, because the seeking and duration limit in encoder works
-                    # "--downloader", "ffmpeg",
-                    # TODO: Seeking here works except for the audio is gone...
-                    # "--external-downloader-args","ffmpeg_i:-ss 10",
-                    # TODO: Limiting duration works here... 
-                    # "--external-downloader-args","ffmpeg_o:-t 10",
                     url,
                     "-o", "-"
                 ]
 
-                # TODO: Add light background to see text on white background
-                # TODO: Draw text on output stream? To stop fontsize from scaling with video quality
                 title = "\"[0:v]drawtext=" \
                     "fontfile=" + config['fontfile'] + "" \
                     ":fontsize=25:fontcolor=white:box=1:boxcolor=black@0.5:boxborderw=2:x=5:y=5:" \
@@ -220,36 +205,12 @@ if __name__ == "__main__":
                     ":fontsize=20:fontcolor=white:box=1:boxcolor=black@0.5:boxborderw=2:x=5:y=30:" \
                     "text='" + video["author"] +  "'\""
 
-                # NOTE: Removed encoding and just doing a copy. No more text overlay, but 
-                # uses less CPU resources.
-                # encoder_cmd = [
-                #     "ffmpeg",
-                #     # "-loglevel", "error",
-                #     "-hide_banner", "-nostats",
-                #     "-probesize", "32",
-                #     # "-ss", "10",
-                #     # TODO: Limiting duration here works.. breaks yt-dlp pipe though (only when video cut short at 5 minutes?)
-                #     "-t", "300",
-                #     "-i", "-",
-                #     # "-c", "copy",
-                #     "-lavfi",
-                #     ] + shlex.split(title) + [
-                #     # ] + shlex.split(author) + [
-                #     "-map", "0:a",
-                #     "-c:a", "copy",
-                #     "-c:v", "libx264",
-                #     # "-s", "1920x1080", # doesn't fix fontsize scaling on low res videos.
-                #     "-f", "mpegts", 
-                #     "-"
-                # ]
-
                 encoder_cmd = [
                     "ffmpeg",
                     "-loglevel",
                     "level+error" if config['PYTHON_ENV'] == 'production' else 'level+info',
                     "-hide_banner", "-nostats",
                     "-probesize", "32",
-                    # "-t", "300",
                     "-i", "-",
                     "-c", "copy",
                     "-f", "mpegts", 
@@ -257,9 +218,7 @@ if __name__ == "__main__":
                 ]
 
                 satbox_logger.info(f'Encoder command:\n"{" ".join(encoder_cmd)}"')
-
                 satbox_logger.info("Now playing: " + url)
-
 
                 with Popen(yt_dlp_cmd, stdout=PIPE, stderr=PIPE) as yt_dlp_p:
                     yt_err_thread = threading.Thread(target=ffmpeg_stderr_reader, args=(yt_dlp_p.stderr, 'yt'))
